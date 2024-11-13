@@ -1,13 +1,9 @@
-// main logic for loading the MobileNet model and making predictions
-
 import React, { useState, useEffect } from 'react';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import ImageUpload from './components/ImageUpload';
-import PredictionResult from './components/PredictionResult';
 
 const App = () => {
     const [model, setModel] = useState(null);
-    const [predictions, setPredictions] = useState([]);
 
     useEffect(() => {
         // Load MobileNet model on app load
@@ -22,7 +18,7 @@ const App = () => {
         img.onload = async () => {
             if (model) {
                 const predictions = await model.classify(img);
-                setPredictions(predictions);  // Store predictions for display
+                // The predictions are now handled directly in the ImageUpload component
             }
         };
     };
@@ -30,7 +26,6 @@ const App = () => {
     return (
         <div>
             <ImageUpload onImageUpload={handleImageUpload} />
-            {predictions.length > 0 && <PredictionResult predictions={predictions} />}
         </div>
     );
 };
